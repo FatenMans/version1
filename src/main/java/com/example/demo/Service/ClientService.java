@@ -4,7 +4,6 @@ import com.example.demo.Entite.Client;
 import com.example.demo.Repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class ClientService {
@@ -13,12 +12,16 @@ public class ClientService {
     private ClientRepository clientRepository;
 
 
-    public  Client createClient(Client client)
+    public Client createClient(Client client)
     {
+        System.out.println(client.getEmail());
  return clientRepository.save(client);
     }
     public  Client getclient( String id)
     {
+
         return  clientRepository.findById(id).get();
     }
+
+
 }
