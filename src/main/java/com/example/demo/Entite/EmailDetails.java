@@ -9,8 +9,7 @@ public class EmailDetails {
     private String msgBody;
     private String subject;
     private String attachment;
-    private String content;
-     private Client client;
+
 
     public String getRecipient() {
         return recipient;
@@ -44,19 +43,7 @@ public class EmailDetails {
         this.attachment = attachment;
     }
 
-    public String getContent() {
-        return content;
-    }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
 
-    public Client getClient() {
-        return client;
-    }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
 }
