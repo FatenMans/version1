@@ -18,31 +18,22 @@ public class  EmailServiceImpl implements EmailService{
 
     // Method 1
     // To send a simple email
-    public String sendSimpleMail(EmailDetails details) {
-
-        // Try block to check for exceptions
+    public String sendSimpleMail(EmailDetails emailDetails) {
         try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(emailDetails.getRecipient());
+            message.setSubject(emailDetails.getSubject());
+            message.setText(emailDetails.getMsgBody());
 
-            // Creating a simple mail message
-            SimpleMailMessage mailMessage
-                    = new SimpleMailMessage();
+            javaMailSender.send(message);
 
-            // Setting up necessary details
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(details.getRecipient());
-            mailMessage.setText(details.getMsgBody());
-            mailMessage.setSubject(details.getSubject());
-
-            // Sending the mail
-            javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully...";
-        }
-
-        // Catch block to handle the exceptions
-        catch (Exception e) {
-            return "Error while Sending Mail";
+            return "Email sent successfully.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error while sending email: " + e.getMessage();
         }
     }
+
 
     @Override
     public String sendMailWithAttachment(EmailDetails details) {

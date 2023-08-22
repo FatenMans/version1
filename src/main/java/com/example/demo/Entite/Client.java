@@ -15,6 +15,8 @@ public class Client {
     private String secteurActivite;
     private String nomComplet;
     private boolean estArchive; // Champ pour l'archivage
+    private String username;
+    private String password;
 
 
     private boolean estActif; // Champ pour l'état d'activation
@@ -100,5 +102,21 @@ public class Client {
 
     public void setEstArchive(boolean estArchive) {
         this.estArchive = estArchive;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
