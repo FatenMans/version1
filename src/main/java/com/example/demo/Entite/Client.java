@@ -1,6 +1,9 @@
 package com.example.demo.Entite;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document(collection = "clients")
 public class Client {
@@ -118,5 +121,17 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    @DBRef
+    private List<Vehicule> vehicules;
+
+    public List<Vehicule> getVehicules() {
+        return vehicules;
+    }
+
+    public void setVehicules(List<Vehicule> vehicules) {
+        this.vehicules = vehicules;
     }
 }

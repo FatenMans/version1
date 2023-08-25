@@ -6,7 +6,11 @@ import com.example.demo.Repository.ClientRepository;
 import com.example.demo.Service.ClientService;
 import com.example.demo.Service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clients")
@@ -18,6 +22,7 @@ public class ClientController {
     private ClientRepository clientRepository;
     @Autowired
     private EmailService emailService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/create")
     public Client createclient(@RequestBody Client client) {
@@ -84,8 +89,8 @@ public class ClientController {
         } else {
             return "Le compte client n'existe pas.";
         }
-    }
 
+    }
     private String generateUsernameFromEmail(String email) {
         // Logique pour générer le nom d'utilisateur à partir de l'email
         // Par exemple, prenez le nom avant "@" dans l'adresse email
@@ -96,7 +101,6 @@ public class ClientController {
             return "defaultUsername";
         }
     }
-
     private String generateRandomPassword() {
         // Logique pour générer un mot de passe aléatoire sécurisé
         // Utilisez une bibliothèque de génération de mots de passe sécurisés
@@ -104,4 +108,24 @@ public class ClientController {
         // Voici un exemple simple (NE PAS utiliser en production) :
         return "GeneratedPassword123"; // Remplacez ceci par la logique réelle
     }
+    @PutMapping("/update/{id}")
+    public Client updateTutorial(@PathVariable("id") String id, @RequestBody Client client) {
+        Optional<Client> clientData = clientRepository.findById(id);
+
+        if (clientData.isPresent()) {
+            Client existingClient = clientData.get();
+            existingClient.setRaisonSociale(client.getRaisonSociale());
+            existingClient.setEmail(client.getEmail());
+            existingClient.setNomComplet(client.getNomComplet());
+            return clientRepository.save(existingClient);
+        } else {
+            return null;
+        }
+    }
+    @PostMapping("/{clientId}/add-vehicule/{vehiculeId}")
+    public ResponseEntity<String> ajouterVehiculeAuClient(@PathVariable String clientId, @PathVariable String vehiculeId) {
+        clientService.ajouterVehiculeAuClient(clientId, vehiculeId);
+        return ResponseEntity.ok("Véhicule ajouté avec succès au client.");
+    }
+
 }
