@@ -3,6 +3,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.security.PermissionCollection;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "clients")
@@ -20,6 +22,7 @@ public class Client {
     private boolean estArchive; // Champ pour l'archivage
     private String username;
     private String password;
+
 
 
     private boolean estActif; // Champ pour l'état d'activation
@@ -125,7 +128,7 @@ public class Client {
 
 
     @DBRef
-    private List<Vehicule> vehicules;
+    private List<Vehicule> vehicules=new ArrayList<>();
 
     public List<Vehicule> getVehicules() {
         return vehicules;

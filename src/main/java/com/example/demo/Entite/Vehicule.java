@@ -1,7 +1,10 @@
 package com.example.demo.Entite;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document(collection = "vehicules")
 
@@ -18,6 +21,7 @@ public class Vehicule {
     private double qteCarburantEnLitre;
     private boolean estArchive;
     // Getters, setters, constructeurs
+
 
     public String getId() {
         return id;

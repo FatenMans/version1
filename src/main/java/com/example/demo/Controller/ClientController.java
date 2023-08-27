@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entite.Client;
 import com.example.demo.Entite.EmailDetails;
+import com.example.demo.Entite.Vehicule;
 import com.example.demo.Repository.ClientRepository;
 import com.example.demo.Service.ClientService;
 import com.example.demo.Service.EmailService;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/clients")
@@ -71,6 +73,7 @@ public class ClientController {
             return "Le compte client n'existe pas.";
         }
     }
+
     @PostMapping("/generateCredentials/{id}")
     public String generateCredentials(@PathVariable String id) {
         Client client = clientRepository.findById(id).orElse(null);
@@ -91,6 +94,7 @@ public class ClientController {
         }
 
     }
+
     private String generateUsernameFromEmail(String email) {
         // Logique pour générer le nom d'utilisateur à partir de l'email
         // Par exemple, prenez le nom avant "@" dans l'adresse email
@@ -101,6 +105,7 @@ public class ClientController {
             return "defaultUsername";
         }
     }
+
     private String generateRandomPassword() {
         // Logique pour générer un mot de passe aléatoire sécurisé
         // Utilisez une bibliothèque de génération de mots de passe sécurisés
@@ -108,6 +113,7 @@ public class ClientController {
         // Voici un exemple simple (NE PAS utiliser en production) :
         return "GeneratedPassword123"; // Remplacez ceci par la logique réelle
     }
+
     @PutMapping("/update/{id}")
     public Client updateTutorial(@PathVariable("id") String id, @RequestBody Client client) {
         Optional<Client> clientData = clientRepository.findById(id);
@@ -122,10 +128,26 @@ public class ClientController {
             return null;
         }
     }
-    @PostMapping("/{clientId}/add-vehicule/{vehiculeId}")
-    public ResponseEntity<String> ajouterVehiculeAuClient(@PathVariable String clientId, @PathVariable String vehiculeId) {
-        clientService.ajouterVehiculeAuClient(clientId, vehiculeId);
-        return ResponseEntity.ok("Véhicule ajouté avec succès au client.");
-    }
 
+    @PostMapping("/{clientId}/add-vehicule")
+    public String addVehiculeToClient(
+            @PathVariable String clientId,
+            @RequestBody Vehicule vehicule) {
+        Optional<Client> optionalClient = clientRepository.findById(clientId);
+        if (optionalClient.isPresent()) {
+            Client client = optionalClient.get();
+
+            // Assurez-vous que le véhicule a un ID valide
+            if (vehicule.getId() == null) {
+                vehicule.setId(UUID.randomUUID().toString()); // Exemple de génération d'ID
+            }
+
+            client.getVehicules().add(vehicule);
+            clientRepository.save(client);
+            return "Véhicule ajouté au client avec succès.";
+        } else {
+            return "Client non trouvé.";
+        }
+
+    }
 }

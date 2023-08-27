@@ -20,15 +20,7 @@ public class ClientService {
     @Autowired
     private VehiculeRepository vehiculeRepository;
 
-    public void ajouterVehiculeAuClient(String clientId, String vehiculeId) {
-        Client client = clientRepository.findById(clientId).orElse(null);
-        Vehicule vehicule = vehiculeRepository.findById(vehiculeId).orElse(null);
 
-        if (client != null && vehicule != null) {
-            client.getVehicules().add(vehicule);
-            clientRepository.save(client);
-        }
-    }
 
 
     public Client createClient(Client client)
@@ -45,4 +37,14 @@ public class ClientService {
 
     public void updateClient(Client client) {
     }
+
+    public void ajouterVehiculeAuClient(String clientId, Vehicule vehicule) {
+        Client client = clientRepository.findById(clientId).orElse(null);
+
+        if (client != null) {
+            client.getVehicules().add(vehicule);
+            clientRepository.save(client);
+        }
+    }
+
 }
