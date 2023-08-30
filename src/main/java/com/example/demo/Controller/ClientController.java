@@ -134,12 +134,19 @@ public class ClientController {
     }
 
 
-    @PostMapping("/{VehiculeId}/clients")
-    public void ajouterVehiculeAuClient(@PathVariable String VehiculeId, @RequestBody Client client) {
+//    @PostMapping("/{VehiculeId}/clients")
+//    public void ajouterVehiculeAuClient(@PathVariable String VehiculeId, @RequestBody Client client) {
+//
+//            clientService.ajouterClientAuVehicule(VehiculeId, client);
+//
+//
+//    }
 
-            clientService.ajouterClientAuVehicule(VehiculeId, client);
 
-
+    @PostMapping("/{clientId}/add-vehicule/{vehiculeId}")
+    public ResponseEntity<String> ajouterVehiculeAuClient(@PathVariable String clientId, @PathVariable String vehiculeId) {
+        clientService.ajouterVehiculeAuClient(clientId, vehiculeId);
+        return ResponseEntity.ok("Véhicule ajouté avec succès au client.");
     }
 
 
