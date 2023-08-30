@@ -36,5 +36,11 @@ public class VehiculeService {
 
     public void updateVehciule(Vehicule vehicule) {
     }
+
+
+    public void ajouterVehicule(Client client, Vehicule vehicule) {
+        vehicule.setClient(client); // Associer le client au véhicule
+        vehiculeRepository.save(vehicule);
+    }
 }
 

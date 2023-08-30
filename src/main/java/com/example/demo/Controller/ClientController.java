@@ -4,8 +4,10 @@ import com.example.demo.Entite.Client;
 import com.example.demo.Entite.EmailDetails;
 import com.example.demo.Entite.Vehicule;
 import com.example.demo.Repository.ClientRepository;
+import com.example.demo.Repository.VehiculeRepository;
 import com.example.demo.Service.ClientService;
 import com.example.demo.Service.EmailService;
+import com.example.demo.Service.VehiculeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +26,8 @@ public class ClientController {
     private ClientRepository clientRepository;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private VehiculeService vehiculeService;
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/create")
@@ -129,25 +133,17 @@ public class ClientController {
         }
     }
 
-    @PostMapping("/{clientId}/add-vehicule")
-    public String addVehiculeToClient(
-            @PathVariable String clientId,
-            @RequestBody Vehicule vehicule) {
-        Optional<Client> optionalClient = clientRepository.findById(clientId);
-        if (optionalClient.isPresent()) {
-            Client client = optionalClient.get();
 
-            // Assurez-vous que le véhicule a un ID valide
-            if (vehicule.getId() == null) {
-                vehicule.setId(UUID.randomUUID().toString()); // Exemple de génération d'ID
-            }
+    @PostMapping("/{VehiculeId}/clients")
+    public void ajouterVehiculeAuClient(@PathVariable String VehiculeId, @RequestBody Client client) {
 
-            client.getVehicules().add(vehicule);
-            clientRepository.save(client);
-            return "Véhicule ajouté au client avec succès.";
-        } else {
-            return "Client non trouvé.";
-        }
+            clientService.ajouterClientAuVehicule(VehiculeId, client);
+
 
     }
+
+
+
+
 }
+

@@ -107,5 +107,15 @@ public class Vehicule {
     public void setEstArchive(boolean estArchive) {
         this.estArchive = estArchive;
     }
+     @DBRef
+    Client client;
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }
 

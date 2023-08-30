@@ -38,13 +38,17 @@ public class ClientService {
     public void updateClient(Client client) {
     }
 
-    public void ajouterVehiculeAuClient(String clientId, Vehicule vehicule) {
-        Client client = clientRepository.findById(clientId).orElse(null);
+    public void ajouterClientAuVehicule(String VehiculeId, Client client) {
+      Vehicule vehicule = vehiculeRepository.findById(VehiculeId).orElse(null);
 
-        if (client != null) {
+        if (vehicule != null) {
+            vehicule.setClient(client);
+
             client.getVehicules().add(vehicule);
             clientRepository.save(client);
+            vehiculeRepository.save(vehicule);
         }
     }
+
 
 }
